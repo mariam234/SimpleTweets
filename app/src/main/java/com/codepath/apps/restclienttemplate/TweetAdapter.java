@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
@@ -48,6 +50,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
 
+        ParseRelativeDate parseRelativeDate = new ParseRelativeDate();
+        holder.tvTimestamp.setText(parseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
+
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
                 .into(holder.ivProfileImage);
@@ -64,14 +69,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageView ivProfileImage;
         public TextView tvUsername;
         public TextView tvBody;
+        public TextView tvTimestamp;
 
         public ViewHolder (View itemView) {
             super(itemView);
 
             // perform findViewById lookups
-
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvUsername = itemView.findViewById(R.id.tvUserName);
+            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
             tvBody = itemView.findViewById(R.id.tvBody);
         }
     }
