@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -26,7 +27,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
-    private final int REQUEST_CODE = 20;
+    public final int REQUEST_CODE = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,29 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
         populateTimeline();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.timeline_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            // if compose button is clicked,start intent for compose activity
-            case R.id.miCompose:
-                // first parameter is the context, second is the class of the activity to launch
-                Intent i = new Intent(this, ComposeActivity.class);
-                startActivityForResult(i, REQUEST_CODE); // brings up the second activity with result code
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
+    // load timeline by sending request to the twitter client
     private void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
@@ -119,4 +98,45 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.timeline_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            // when compose item is clicked, go to compose activity
+            case R.id.miCompose:
+                launchComposeView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // method for starting intent for compose activity
+    public void launchComposeView() {
+        // first parameter is the context, second is the class of the activity to launch
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i, REQUEST_CODE); // brings up the second activity with result code
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            // Extract tweet from result extras
+            Tweet newTweet = data.getExtras().getParcelable("newTweet");
+            // add newly created tweet to the tweets array list
+            tweets.add(0, newTweet);
+            tweetAdapter.notifyItemInserted(0);
+            rvTweets.scrollToPosition(0);
+        }
+    }
+
 }

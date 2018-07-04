@@ -7,7 +7,7 @@
     tools:context=".ComposeActivity">
 
     <EditText
-        android:id="@+id/etCompose"
+        android:id="@+id/etNewTweet"
         android:layout_width="match_parent"
         android:layout_height="176dp"
         android:ems="10"
@@ -15,12 +15,4 @@
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
-
-    <Button
-        android:id="@+id/btTweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etCompose"
-        android:layout_centerHorizontal="true"
-        android:text="@string/submit_tweet" />
 </RelativeLayout>
