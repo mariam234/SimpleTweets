@@ -16,6 +16,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -131,7 +132,8 @@ public class TimelineActivity extends AppCompatActivity {
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract tweet from result extras
-            Tweet newTweet = data.getExtras().getParcelable("newTweet");
+            Tweet newTweet = Parcels.unwrap(data.getParcelableExtra("newTweet"));
+            // Tweet newTweet = data.getParcelableExtra("newTweet");
             // add newly created tweet to the tweets array list
             tweets.add(0, newTweet);
             tweetAdapter.notifyItemInserted(0);

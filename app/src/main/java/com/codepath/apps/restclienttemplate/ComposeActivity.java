@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -24,6 +26,7 @@ import cz.msebera.android.httpclient.Header;
 public class ComposeActivity extends AppCompatActivity {
 
     private TwitterClient client;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,13 @@ public class ComposeActivity extends AppCompatActivity {
 
     // method for sending tweet and going back to timeline activity
     public void sendTweet() {
-        // bind variable to EditText item
+        // get message that user wrote
         EditText etNewTweet = findViewById(R.id.etNewTweet);
-        client.sendTweet(etNewTweet.getText().toString(), new JsonHttpResponseHandler() {
+        String message = etNewTweet.getText().toString();
+
+        // set up client and send network request to post new tweet
+        client = TwitterApp.getRestClient(this);
+        client.sendTweet(message, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
