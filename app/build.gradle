@@ -5,6 +5,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.codepath.apps.restclienttemplate"
         minSdkVersion 17
         targetSdkVersion 27

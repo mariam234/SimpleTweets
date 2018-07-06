@@ -26,4 +26,8 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="TimelineText" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:textSize">@dimen/timeline_text_size</item>
+    </style>
+
 </resources>

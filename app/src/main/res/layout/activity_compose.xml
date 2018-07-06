@@ -9,10 +9,15 @@
     <EditText
         android:id="@+id/etNewTweet"
         android:layout_width="match_parent"
-        android:layout_height="378dp"
+        android:layout_height="191dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ivProfileImageCompose"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="@string/compose_tweet_hint"
@@ -42,14 +47,15 @@
 
     <ImageView
         android:id="@+id/ivProfileImageCompose"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/profile_image_size"
+        android:layout_height="@dimen/profile_image_size"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        app:srcCompat="@android:color/black" />
+        app:srcCompat="@android:color/background_dark"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/tvUsernameCompose"
@@ -58,7 +64,8 @@
         android:layout_alignTop="@+id/ivProfileImageCompose"
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/ivProfileImageCompose"
-        android:text="Username" />
+        android:text="Username"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/tvHandleCompose"
@@ -66,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUsernameCompose"
         android:layout_toEndOf="@+id/ivProfileImageCompose"
-        android:text="Handle" />
+        android:text="Handle"
+        android:visibility="invisible" />
 
 </RelativeLayout>

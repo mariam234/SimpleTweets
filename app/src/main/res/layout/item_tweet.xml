@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="5dp"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
-
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:theme="@style/TimelineText">
     <TextView
         android:id="@+id/tvHandle"
         android:layout_width="wrap_content"
@@ -12,11 +11,12 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/tvUserName"
-        android:text="Handle" />
+        android:text="Handle"
+        android:textSize="@dimen/timeline_text_size" />
 
     <ImageView
         android:id="@+id/ivProfileImage"
-        android:layout_width="@dimen/"
+        android:layout_width="@dimen/profile_image_size"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -31,6 +31,7 @@
         android:fontFamily="sans-serif"
         android:text="Username"
         android:textColor="@android:color/black"
+        android:textSize="@dimen/timeline_text_size"
         android:textStyle="bold" />
 
     <TextView
@@ -38,11 +39,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUserName"
-        android:layout_marginLeft="5dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="Body"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/timeline_text_size" />
 
     <TextView
         android:id="@+id/tvTimestamp"
@@ -50,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:text="Timestamp" />
+        android:text="Timestamp"
+        android:textSize="@dimen/timeline_text_size" />
 
     <View
         android:id="@+id/vHorizontalLine"
@@ -58,5 +61,51 @@
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:background="@color/light_gray" />
+
+    <ImageView
+        android:id="@+id/ivRetweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/tvRetweetCount"
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+    <ImageView
+        android:id="@+id/ivReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginLeft="10dp"
+        app:srcCompat="@drawable/vector_compose_dm_fab" />
+
+    <ImageView
+        android:id="@+id/ivLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/tvLikeCount"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+    <TextView
+        android:id="@+id/tvLikeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginRight="10dp"
+        android:text="LC" />
+
+    <TextView
+        android:id="@+id/tvRetweetCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginEnd="153dp"
+        android:text="RC" />
 
 </RelativeLayout>

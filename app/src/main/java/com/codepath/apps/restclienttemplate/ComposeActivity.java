@@ -43,13 +43,22 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
-        btSubmitTweet = findViewById(R.id.btSubmitTweet);
-        btSubmitTweet.setOnClickListener(this);
-        etNewTweet = findViewById(R.id.etNewTweet);
-        etNewTweet.addTextChangedListener(mTextEditorWatcher);
-        tvCounter = findViewById(R.id.tvCounter);
+
+        // get max tweet length
         int max_tweet_length = getResources().getInteger(R.integer.max_tweet_length);
+
+        // bind variables to views and set initial values and listeners
+        tvUsernameCompose = findViewById(R.id.tvUsernameCompose);
+        tvHandleCompose = findViewById(R.id.tvHandleCompose);
+        ivProfileImageCompose = findViewById(R.id.ivProfileImageCompose);
+        btSubmitTweet = findViewById(R.id.btSubmitTweet);
+        etNewTweet = findViewById(R.id.etNewTweet);
+        tvCounter = findViewById(R.id.tvCounter);
+
         tvCounter.setText(String.valueOf(max_tweet_length));
+        btSubmitTweet.setOnClickListener(this);
+        etNewTweet.addTextChangedListener(mTextEditorWatcher);
+
         // set user's info
         setUserInfo();
     }
@@ -134,10 +143,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
     // method for configuring user's profile picture, username, and handle
     public void setUserInfo() {
-        tvUsernameCompose = findViewById(R.id.tvUsernameCompose);
-        tvHandleCompose = findViewById(R.id.tvHandleCompose);
-        ivProfileImageCompose = findViewById(R.id.ivProfileImageCompose);
-
         // set up client and send network request to get user's info tweet
         client = TwitterApp.getRestClient(this);
         client.getUserInfo(new JsonHttpResponseHandler() {
@@ -149,6 +154,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                     User user = User.fromJSON(response);
                     tvUsernameCompose.setText(user.name);
                     tvHandleCompose.setText(user.screenName);
+                    tvUsernameCompose.setVisibility(View.VISIBLE);
+                    tvHandleCompose.setVisibility(View.VISIBLE);
 
                     // rounded corners transformation
                     RoundedCornersTransformation transformation = new RoundedCornersTransformation(
@@ -164,6 +171,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                             .load(user.profileImageUrl)
                             .apply(options)
                             .into(ivProfileImageCompose);
+                    ivProfileImageCompose.setVisibility(View.VISIBLE);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
