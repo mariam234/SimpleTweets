@@ -28,12 +28,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-/*  // Add a list of items -- change to type used
-    public void addAll(List<Tweet> list) {
-        mTweets.addAll(list);
-        notifyDataSetChanged();
-    }*/
-
     // pass in the Tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets) {
         mTweets = tweets;
@@ -102,7 +96,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvUsername = itemView.findViewById(R.id.tvUserName);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
             tvBody = itemView.findViewById(R.id.tvBody);
-            tvHandle = itemView.findViewById(R.id.tvUsername);
+            tvHandle = itemView.findViewById(R.id.tvHandle);
         }
     }
 }

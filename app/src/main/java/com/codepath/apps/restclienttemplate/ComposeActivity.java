@@ -11,10 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
@@ -22,13 +26,17 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TwitterClient client;
-    public EditText etNewTweet;
-    public Button btSubmitTweet;
-    public TextView tvCounter;
+    EditText etNewTweet;
+    Button btSubmitTweet;
+    TextView tvCounter;
+    TextView tvUsernameCompose;
+    TextView tvHandleCompose;
+    ImageView ivProfileImageCompose;
     MenuItem miActionProgressItem;
 
     @Override
@@ -42,6 +50,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         tvCounter = findViewById(R.id.tvCounter);
         int max_tweet_length = getResources().getInteger(R.integer.max_tweet_length);
         tvCounter.setText(String.valueOf(max_tweet_length));
+        // set user's info
+        setUserInfo();
     }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -62,6 +72,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
             // set counter to count down from max tweet length
             tvCounter.setText(String.valueOf(counterValue));
+
         }
 
         public void afterTextChanged(Editable s) {
@@ -81,6 +92,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
 /*        // Extract the action-view from the menu item
         ProgressBar progressBar = (ProgressBar) miActionProgressItem.getActionView();*/
+        // show progress bar
+        showProgressBar();
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
     }
@@ -117,6 +130,61 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
         }
+    }
+
+    // method for configuring user's profile picture, username, and handle
+    public void setUserInfo() {
+        tvUsernameCompose = findViewById(R.id.tvUsernameCompose);
+        tvHandleCompose = findViewById(R.id.tvHandleCompose);
+        ivProfileImageCompose = findViewById(R.id.ivProfileImageCompose);
+
+        // set up client and send network request to get user's info tweet
+        client = TwitterApp.getRestClient(this);
+        client.getUserInfo(new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    // get user from response and set name and handle
+                    User user = User.fromJSON(response);
+                    tvUsernameCompose.setText(user.name);
+                    tvHandleCompose.setText(user.screenName);
+
+                    // rounded corners transformation
+                    RoundedCornersTransformation transformation = new RoundedCornersTransformation(
+                            20,
+                            20
+                    );
+
+                    // put glide image options in variable
+                    RequestOptions options = RequestOptions.bitmapTransform(transformation);
+
+                    // load image using glide
+                    Glide.with(getBaseContext())
+                            .load(user.profileImageUrl)
+                            .apply(options)
+                            .into(ivProfileImageCompose);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                hideProgressBar();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("TwitterClient", responseString);
+                throwable.printStackTrace();
+                hideProgressBar();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+                hideProgressBar();
+            }
+
+        });
     }
 
     // method for sending tweet and going back to timeline activity
