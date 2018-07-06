@@ -12,6 +12,10 @@ public class Tweet {
     public long uid; // database ID for the tweet
     public User user;
     public String createdAt;
+    public int retweet_count;
+    public int likes_count;
+    public boolean retweeted;
+    public boolean favorited;
 
     // empty constructor needed by the Parceler library
     public Tweet() {
@@ -28,6 +32,10 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+        tweet.retweet_count = jsonObject.getInt("retweet_count");
+        tweet.likes_count = jsonObject.getInt("favourites_count");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
+
         return tweet;
     }
 }
