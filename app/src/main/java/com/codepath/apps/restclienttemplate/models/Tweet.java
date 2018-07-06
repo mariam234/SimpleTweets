@@ -33,8 +33,9 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         tweet.retweet_count = jsonObject.getInt("retweet_count");
-        tweet.likes_count = jsonObject.getInt("favourites_count");
+        // tweet.likes_count = jsonObject.getInt("favourites_count");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
+        tweet.favorited = jsonObject.getBoolean("favorited");
 
         return tweet;
     }
