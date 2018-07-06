@@ -22,5 +22,8 @@
         <item name="android:background">@color/twitter_blue</item>
     </style>
 
+    <style name="AppTheme.WhiteAccent">
+        <item name="colorAccent">@color/white</item>
+    </style>
 
 </resources>

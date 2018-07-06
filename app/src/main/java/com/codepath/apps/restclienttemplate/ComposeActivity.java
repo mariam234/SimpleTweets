@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,6 +29,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     public EditText etNewTweet;
     public Button btSubmitTweet;
     public TextView tvCounter;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,26 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+/*        // Extract the action-view from the menu item
+        ProgressBar progressBar = (ProgressBar) miActionProgressItem.getActionView();*/
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
@@ -99,6 +121,9 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
     // method for sending tweet and going back to timeline activity
     public void sendTweet() {
+        // show progress bar
+        showProgressBar();
+
         // get message that user wrote
         etNewTweet = findViewById(R.id.etNewTweet);
         String message = etNewTweet.getText().toString();
@@ -119,9 +144,11 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                     data.putExtra("code", 20); // REQUEST_CODE from timeline activity
                     // Activity finished ok, return the data
                     setResult(RESULT_OK, data); // set result code and bundle data for response
+                    hideProgressBar();
                     finish(); // closes the activity, pass data to parent
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hideProgressBar();
                 }
             }
 
@@ -129,12 +156,25 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.d("TwitterClient", responseString);
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                // tell user error message and log it
+                try {
+                    String errorMessage = errorResponse.getJSONArray("errors")
+                            .getJSONObject(0)
+                            .getString("message");
+                    Toast.makeText(getBaseContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    hideProgressBar();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    hideProgressBar();
+                }
                 Log.d("TwitterClient", errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
         });
