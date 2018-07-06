@@ -1,38 +1,70 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ComposeActivity extends AppCompatActivity {
+public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TwitterClient client;
-    private Context context;
+    public EditText etNewTweet;
+    public Button btSubmitTweet;
+    public TextView tvCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+        btSubmitTweet = findViewById(R.id.btSubmitTweet);
+        btSubmitTweet.setOnClickListener(this);
+        etNewTweet = findViewById(R.id.etNewTweet);
+        etNewTweet.addTextChangedListener(mTextEditorWatcher);
+        tvCounter = findViewById(R.id.tvCounter);
+        int max_tweet_length = getResources().getInteger(R.integer.max_tweet_length);
+        tvCounter.setText(String.valueOf(max_tweet_length));
     }
+
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            int max_tweet_length = getResources().getInteger(R.integer.max_tweet_length);
+            int counterValue = max_tweet_length - s.length();
+
+            // once max is reached, set counter to be red
+            if (counterValue < 0) {
+                tvCounter.setTextColor(getResources().getColor(R.color.medium_red));
+            }
+            else {
+                tvCounter.setTextColor(getResources().getColor(R.color.medium_gray));
+            }
+
+            // set counter to count down from max tweet length
+            tvCounter.setText(String.valueOf(counterValue));
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,18 +77,30 @@ public class ComposeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.miSubmitTweet:
-                sendTweet();
+            // go back to timeline if close button is pressed
+            case R.id.miClose:
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // send tweet if submit button is pressed
+            case  R.id.btSubmitTweet: {
+                sendTweet();
+                break;
+            }
+        }
+    }
+
     // method for sending tweet and going back to timeline activity
     public void sendTweet() {
         // get message that user wrote
-        EditText etNewTweet = findViewById(R.id.etNewTweet);
+        etNewTweet = findViewById(R.id.etNewTweet);
         String message = etNewTweet.getText().toString();
 
         // set up client and send network request to post new tweet

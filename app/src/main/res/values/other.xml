@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- max length of a tweet -->
+    <integer name="max_tweet_length">280</integer>
+</resources>

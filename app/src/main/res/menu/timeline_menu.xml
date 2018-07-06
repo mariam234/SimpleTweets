@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/miCompose"
-        android:icon="@drawable/ic_compose"
-        app:showAsAction="ifRoom"
-        android:title="Compose">
-    </item>
+        android:icon="@drawable/ic_vector_compose"
+        android:title="Compose"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/miActionProgress"
+        android:title="Loading..."
+        android:visible="false"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        app:actionLayout="@layout/action_view_progress" />
 </menu>

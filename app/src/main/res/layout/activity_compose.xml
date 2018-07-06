@@ -8,11 +8,32 @@
 
     <EditText
         android:id="@+id/etNewTweet"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="176dp"
         android:ems="10"
         android:hint="@string/compose_tweet_hint"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/btSubmitTweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/etNewTweet"
+        android:layout_marginEnd="20dp"
+        android:text="@string/submit_tweet" />
+
+    <TextView
+        android:id="@+id/tvCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btSubmitTweet"
+        android:layout_toStartOf="@+id/btSubmitTweet"
+        android:layout_marginEnd="20dp"
+        android:text="Counter" />
+
 </RelativeLayout>

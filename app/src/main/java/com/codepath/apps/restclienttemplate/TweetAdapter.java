@@ -10,16 +10,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.w3c.dom.Text;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
     private List<Tweet> mTweets;
     Context context;
+
+    // Clean all elements of the recycler
+    public void clear() {
+        mTweets.clear();
+        notifyDataSetChanged();
+    }
+
+/*  // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        mTweets.addAll(list);
+        notifyDataSetChanged();
+    }*/
 
     // pass in the Tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets) {
@@ -27,7 +42,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     // for each row, inflate the layout and cache references into ViewHolder
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,7 +54,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     // bind the values based on the position of the element
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // get the data according to position
@@ -53,8 +66,19 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         ParseRelativeDate parseRelativeDate = new ParseRelativeDate();
         holder.tvTimestamp.setText(parseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
 
+        // rounded corners transformation
+        RoundedCornersTransformation transformation = new RoundedCornersTransformation(
+                20,
+                20
+        );
+
+        // put glide image options in variable
+        RequestOptions options = RequestOptions.bitmapTransform(transformation);
+
+        // load image using glide
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
+                .apply(options)
                 .into(holder.ivProfileImage);
     }
 
@@ -64,7 +88,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     // create the ViewHolder class
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivProfileImage;
         public TextView tvUsername;

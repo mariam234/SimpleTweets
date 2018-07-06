@@ -10,7 +10,17 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="colorPrimary">@color/twitter_blue</item>
+        <item name="colorAccent">@color/twitter_blue</item>
+        <item name="android:textColorPrimary">@android:color/primary_text_light</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
+    <!-- ActionBar styles -->
+    <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/twitter_blue</item>
+    </style>
+
 
 </resources>
