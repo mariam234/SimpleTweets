@@ -1,10 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Movie;
-import android.graphics.PorterDuff;
-import android.media.Image;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -210,18 +205,18 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case  R.id.ivReply: {
+            case  R.id.ivReplyDetails: {
                 // change color
                 // launchReplyActivity();
                 break;
             }
-            case  R.id.ivRetweet: {
+            case  R.id.ivRetweetDetails: {
                 Toast.makeText(this, "retweet pressed", Toast.LENGTH_LONG).show();
                 ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
                 // retweet();
                 break;
             }
-            case  R.id.ivLike: {
+            case  R.id.ivLikeDetails: {
                 ivLike.setImageResource(R.drawable.ic_vector_heart);
                 // likeTweet();
                 break;

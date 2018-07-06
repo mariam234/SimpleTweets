@@ -7,5 +7,7 @@
     <string name="intent_host">cprest</string>
     <string name="submit_tweet">Tweet</string>
     <string name="compose_tweet_hint">What\'s happening?</string>
+    <string name="retweets_name">RETWEETS</string>
+    <string name="likes_name">LIKES</string>
 
 </resources>

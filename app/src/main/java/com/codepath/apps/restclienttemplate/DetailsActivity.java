@@ -2,8 +2,11 @@ package com.codepath.apps.restclienttemplate;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 public class DetailsActivity extends AppCompatActivity {
+
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

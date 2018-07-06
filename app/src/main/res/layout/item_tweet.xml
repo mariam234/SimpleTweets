@@ -56,7 +56,7 @@
         android:textSize="@dimen/timeline_text_size" />
 
     <ImageView
-        android:id="@+id/ivRetweet"
+        android:id="@+id/ivRetweetDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
@@ -66,7 +66,7 @@
         app:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
     <ImageView
-        android:id="@+id/ivReply"
+        android:id="@+id/ivReplyDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
@@ -77,12 +77,12 @@
         app:srcCompat="@drawable/vector_compose_dm_fab" />
 
     <ImageView
-        android:id="@+id/ivLike"
+        android:id="@+id/ivLikeDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
         android:layout_marginStart="100dp"
-        android:layout_toEndOf="@id/ivRetweet"
+        android:layout_toEndOf="@id/ivRetweetDetails"
         android:focusable="true"
         android:clickable="true"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
-        android:layout_toEndOf="@+id/ivLike"
+        android:layout_toEndOf="@+id/ivLikeDetails"
         android:layout_marginStart="5dp"
         android:text="LC" />
 
@@ -101,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
-        android:layout_toEndOf="@+id/ivRetweet"
+        android:layout_toEndOf="@+id/ivRetweetDetails"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="10dp"
         android:text="RC" />

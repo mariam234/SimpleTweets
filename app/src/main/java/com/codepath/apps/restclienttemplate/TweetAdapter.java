@@ -119,7 +119,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         }
 
-        // go to tweet details activity or reply activity on click
+        // go to tweet details activity on tweet click
         @Override
         public void onClick(View view) {
             // get item position
