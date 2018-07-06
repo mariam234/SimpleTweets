@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -26,18 +27,13 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends AppCompatActivity implements View.OnClickListener {
+public class TimelineActivity extends AppCompatActivity {
 
     private TwitterClient client;
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
     MenuItem miActionProgressItem;
-    TextView tvRetweetCount;
-    TextView tvLikesCount;
-    ImageView ivLike;
-    ImageView ivRetweet;
-    ImageView ivReply;
 
     public final int REQUEST_CODE = 20;
     private SwipeRefreshLayout swipeContainer;
@@ -83,18 +79,6 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
 
         // load the timeline
         populateTimeline();
-
-        /*// perform action item view lookups
-        tvLikesCount = findViewById(R.id.tvLikesCount);
-        tvRetweetCount = findViewById(R.id.tvRetweetCount);
-        ivLike = findViewById(R.id.ivLike);
-        ivRetweet = findViewById(R.id.ivRetweet);
-        ivReply = findViewById(R.id.ivReply);
-
-        // set on click listeners for action items
-        ivLike.setOnClickListener(this);
-        ivRetweet.setOnClickListener(this);
-        ivReply.setOnClickListener(this);*/
 
     }
 
@@ -202,35 +186,6 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case  R.id.ivReplyDetails: {
-                // change color
-                // launchReplyActivity();
-                break;
-            }
-            case  R.id.ivRetweetDetails: {
-                Toast.makeText(this, "retweet pressed", Toast.LENGTH_LONG).show();
-                ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
-                // retweet();
-                break;
-            }
-            case  R.id.ivLikeDetails: {
-                ivLike.setImageResource(R.drawable.ic_vector_heart);
-                // likeTweet();
-                break;
-            }
-        }
-    }
-
-    // method for starting intent for reply activity
-    public void launchReplyView() {
-        Intent i = new Intent(this, ReplyActivity.class);
-        startActivityForResult(i, REQUEST_CODE); // brings up the second activity with result code
-    }
-
-
     // method for starting intent for compose activity
     public void launchComposeView() {
         // first parameter is the context, second is the class of the activity to launch
@@ -244,12 +199,17 @@ public class TimelineActivity extends AppCompatActivity implements View.OnClickL
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract tweet from result extras
             Tweet newTweet = Parcels.unwrap(data.getParcelableExtra("newTweet"));
-            // Tweet newTweet = data.getParcelableExtra("newTweet");
             // add newly created tweet to the tweets array list
             tweets.add(0, newTweet);
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);
         }
+    }
+
+    static void onTweetClicked(Tweet tweet, Context context) {
+        Intent intent = new Intent (context, DetailsActivity.class);
+        intent.putExtra("tweet", Parcels.wrap(tweet));
+        context.startActivity(intent);
     }
 
 }

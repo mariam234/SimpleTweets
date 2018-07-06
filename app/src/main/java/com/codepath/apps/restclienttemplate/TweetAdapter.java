@@ -1,9 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,17 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
-import org.parceler.Parcels;
-
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+import static com.codepath.apps.restclienttemplate.TimelineActivity.onTweetClicked;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
@@ -63,13 +59,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvHandle.setText("@" + tweet.user.screenName);
-        long retweet_count = tweet.retweet_count;
-        long likes_count = tweet.likes_count;
+        long retweet_count = tweet.retweetCount;
+        long likes_count = tweet.likesCount;
         holder.tvRetweetCount.setText(AbbreviateNumber.format(retweet_count));
         holder.tvLikesCount.setText(AbbreviateNumber.format(likes_count));
 
-        ParseRelativeDate parseRelativeDate = new ParseRelativeDate();
-        holder.tvTimestamp.setText(parseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
+        holder.tvTimestamp.setText(ParseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
 
         // rounded corners transformation
         RoundedCornersTransformation transformation = new RoundedCornersTransformation(
@@ -101,8 +96,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         TextView tvHandle;
         TextView tvRetweetCount;
         TextView tvLikesCount;
+        ImageView ivRetweet;
+        ImageView ivLike;
+        ImageView ivReply;
 
-        public ViewHolder (View itemView) {
+
+        public ViewHolder(View itemView) {
             super(itemView);
 
             // perform findViewById lookups
@@ -113,25 +112,44 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvHandle = itemView.findViewById(R.id.tvHandle);
             tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
             tvLikesCount = itemView.findViewById(R.id.tvLikesCount);
+            ivRetweet = itemView.findViewById(R.id.ivRetweet);
+            ivLike = itemView.findViewById(R.id.ivLike);
+            ivReply = itemView.findViewById(R.id.ivReply);
 
-            // set this as itemView's onclicklistener
+
+            // set this as items' onclicklistener
             itemView.setOnClickListener(this);
+            ivRetweet.setOnClickListener(this);
+            ivLike.setOnClickListener(this);
+            ivReply.setOnClickListener(this);
 
         }
 
-        // go to tweet details activity on tweet click
+        // call appropriate method from activity timeline for each click
         @Override
         public void onClick(View view) {
+
             // get item position
             int position = getAdapterPosition();
             // get the tweet at the position from tweets array
             Tweet tweet = mTweets.get(position);
-            // create intent for the new activity
-            Intent intent = new Intent (context, DetailsActivity.class);
-            // serialize the tweet using parceler, use its short name as a key
-            intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-            // show the activity
-            context.startActivity(intent);
+
+            switch (view.getId()) {
+                case R.id.ivReply: {
+                    //onReplyClicked(tweet, context);
+                    break;
+                }
+                case R.id.ivRetweet: {
+                    //onRetweetClicked(tweet, context);
+                    break;
+                }
+                case R.id.ivLike: {
+                    //onLikeClicked(tweet, context);
+                    break;
+                }
+                default:
+                    onTweetClicked(tweet, context);
+            }
         }
     }
 }

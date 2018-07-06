@@ -12,8 +12,8 @@ public class Tweet {
     public long uid; // database ID for the tweet
     public User user;
     public String createdAt;
-    public int retweet_count;
-    public int likes_count;
+    public int retweetCount;
+    public int likesCount;
     public boolean retweeted;
     public boolean favorited;
 
@@ -32,8 +32,8 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-        tweet.retweet_count = jsonObject.getInt("retweet_count");
-        tweet.likes_count = jsonObject.getInt("favorite_count");
+        tweet.retweetCount = jsonObject.getInt("retweet_count");
+        tweet.likesCount = jsonObject.getInt("favorite_count");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
         tweet.favorited = jsonObject.getBoolean("favorited");
 

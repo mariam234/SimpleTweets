@@ -7,7 +7,7 @@
     tools:context=".DetailsActivity">
 
     <TextView
-        android:id="@+id/tvBodyDetails"
+        android:id="@+id/tvBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -15,16 +15,18 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="80dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:inputType="textMultiLine"
         android:scrollbars="vertical"
+        android:textSize="18sp"
+        android:theme="@style/TimelineText"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
-        android:id="@+id/ivProfileImageDetails"
+        android:id="@+id/ivProfileImage"
         android:layout_width="@dimen/profile_image_size"
         android:layout_height="@dimen/profile_image_size"
         android:layout_alignParentStart="true"
@@ -36,93 +38,99 @@
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/tvUsernameDetails"
+        android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivProfileImageDetails"
-        android:layout_toEndOf="@+id/ivProfileImageDetails"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/ivProfileImage"
         android:text="Username"
+        android:textStyle="bold"
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/tvHandleDetails"
+        android:id="@+id/tvHandle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvUsernameDetails"
-        android:layout_below="@+id/tvUsernameDetails"
+        android:layout_alignStart="@+id/tvUsername"
+        android:layout_below="@+id/tvUsername"
         android:text="Handle"
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/tvTimestampDetails"
+        android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvBodyDetails"
-        android:layout_below="@+id/tvBodyDetails"
-        android:layout_marginTop="-10dp"
-        android:text="Timestamp"
-        android:textSize="@dimen/timeline_text_size" />
+        android:layout_alignStart="@+id/tvBody"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginBottom="10dp"
+        android:text="Timestamp" />
 
     <ImageView
-        android:id="@+id/ivRetweetDetails"
+        android:id="@+id/ivRetweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivReplyDetails"
+        android:layout_alignTop="@+id/ivReply"
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
     <ImageView
-        android:id="@+id/ivReplyDetails"
+        android:id="@+id/ivReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvBodyDetails"
-        android:layout_below="@+id/tvRetweetCountDetails"
+        android:layout_alignStart="@+id/tvBody"
+        android:layout_below="@+id/tvRetweetCount"
+        android:layout_marginLeft="50dp"
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/vector_compose_dm_fab" />
 
     <ImageView
-        android:id="@+id/ivLikesCountDetails"
+        android:id="@+id/ivLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvBodyDetails"
-        android:layout_alignTop="@+id/ivRetweetDetails"
+        android:layout_alignEnd="@+id/tvBody"
+        android:layout_alignTop="@+id/ivRetweet"
+        android:layout_marginRight="50dp"
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     <TextView
-        android:id="@+id/tvLikesCountDetails"
+        android:id="@+id/tvLikesCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTimestampDetails"
-        android:layout_toEndOf="@+id/tvRetweetsLabel"
+        android:layout_below="@+id/tvTimestamp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/tvRetweetLabel"
         android:text="LC" />
 
     <TextView
-        android:id="@+id/tvRetweetCountDetails"
+        android:id="@+id/tvRetweetCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvBodyDetails"
-        android:layout_below="@+id/tvTimestampDetails"
+        android:layout_alignStart="@+id/tvBody"
+        android:layout_below="@+id/tvTimestamp"
+        android:layout_marginBottom="10dp"
         android:text="RC" />
 
     <TextView
-        android:id="@+id/tvRetweetsLabel"
+        android:id="@+id/tvRetweetLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/tvRetweetCountDetails"
-        android:layout_below="@+id/tvTimestampDetails"
+        android:layout_below="@+id/tvTimestamp"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/tvRetweetCount"
         android:text="@string/retweets_name" />
 
     <TextView
         android:id="@+id/tvLikesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTimestampDetails"
-        android:layout_toEndOf="@+id/tvLikesCountDetails"
+        android:layout_below="@+id/tvTimestamp"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/tvLikesCount"
         android:text="@string/likes_name" />
 
 </RelativeLayout>
