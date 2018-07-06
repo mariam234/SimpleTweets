@@ -1,6 +1,9 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -19,7 +25,8 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
-    private List<Tweet> mTweets;
+    // list of tweets and context
+    List<Tweet> mTweets;
     Context context;
 
     // Clean all elements of the recycler
@@ -37,6 +44,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // get context and create inflater
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -55,8 +63,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvHandle.setText("@" + tweet.user.screenName);
-        long retweet_count = Long.valueOf(tweet.retweet_count);
-        long likes_count = Long.valueOf(tweet.likes_count);
+        long retweet_count = tweet.retweet_count;
+        long likes_count = tweet.likes_count;
         holder.tvRetweetCount.setText(AbbreviateNumber.format(retweet_count));
         holder.tvLikesCount.setText(AbbreviateNumber.format(likes_count));
 
@@ -85,14 +93,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     // create the ViewHolder class
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivProfileImage;
-        public TextView tvUsername;
-        public TextView tvBody;
-        public TextView tvTimestamp;
-        public TextView tvHandle;
-        public TextView tvRetweetCount;
-        public TextView tvLikesCount;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView ivProfileImage;
+        TextView tvUsername;
+        TextView tvBody;
+        TextView tvTimestamp;
+        TextView tvHandle;
+        TextView tvRetweetCount;
+        TextView tvLikesCount;
 
         public ViewHolder (View itemView) {
             super(itemView);
@@ -106,6 +114,24 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
             tvLikesCount = itemView.findViewById(R.id.tvLikesCount);
 
+            // set this as itemView's onclicklistener
+            itemView.setOnClickListener(this);
+
+        }
+
+        // go to tweet details activity or reply activity on click
+        @Override
+        public void onClick(View view) {
+            // get item position
+            int position = getAdapterPosition();
+            // get the tweet at the position from tweets array
+            Tweet tweet = mTweets.get(position);
+            // create intent for the new activity
+            Intent intent = new Intent (context, DetailsActivity.class);
+            // serialize the tweet using parceler, use its short name as a key
+            intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+            // show the activity
+            context.startActivity(intent);
         }
     }
 }
