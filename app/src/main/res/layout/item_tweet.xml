@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUserName"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="Body"
         android:textColor="@android:color/black"
@@ -61,6 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
         android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:clickable="true"
         app:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
     <ImageView
@@ -68,17 +70,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
+        android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_marginLeft="10dp"
+        android:focusable="true"
+        android:clickable="true"
         app:srcCompat="@drawable/vector_compose_dm_fab" />
 
     <ImageView
         android:id="@+id/ivLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivRetweet"
-        android:layout_marginLeft="100dp"
         android:layout_below="@+id/tvBody"
+        android:layout_marginStart="100dp"
+        android:layout_toEndOf="@id/ivRetweet"
+        android:focusable="true"
+        android:clickable="true"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     <TextView
@@ -87,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
         android:layout_toEndOf="@+id/ivLike"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:text="LC" />
 
     <TextView
@@ -96,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
         android:layout_toEndOf="@+id/ivRetweet"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="10dp"
         android:text="RC" />
 

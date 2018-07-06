@@ -55,8 +55,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvHandle.setText("@" + tweet.user.screenName);
-        holder.tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
-        // holder.tvLikesCount.setText(String.valueOf(tweet.likes_count));
+        long retweet_count = Long.valueOf(tweet.retweet_count);
+        long likes_count = Long.valueOf(tweet.likes_count);
+        holder.tvRetweetCount.setText(AbbreviateNumber.format(retweet_count));
+        holder.tvLikesCount.setText(AbbreviateNumber.format(likes_count));
 
         ParseRelativeDate parseRelativeDate = new ParseRelativeDate();
         holder.tvTimestamp.setText(parseRelativeDate.getRelativeTimeAgo(tweet.createdAt));

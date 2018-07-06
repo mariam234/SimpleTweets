@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.Image;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -25,13 +30,19 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TwitterClient client;
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
     MenuItem miActionProgressItem;
+    TextView tvRetweetCount;
+    TextView tvLikesCount;
+    ImageView ivLike;
+    ImageView ivRetweet;
+    ImageView ivReply;
+
     public final int REQUEST_CODE = 20;
     private SwipeRefreshLayout swipeContainer;
 
@@ -54,8 +65,19 @@ public class TimelineActivity extends AppCompatActivity {
         // set the adapter
         rvTweets.setAdapter(tweetAdapter);
 
-        // Lookup the swipe container view
+        // Perform view lookups
         swipeContainer = findViewById(R.id.swipeContainer);
+        tvLikesCount = findViewById(R.id.tvLikesCount);
+        tvRetweetCount = findViewById(R.id.tvRetweetCount);
+        ivLike = findViewById(R.id.ivLike);
+        ivRetweet = findViewById(R.id.ivRetweet);
+        ivReply = findViewById(R.id.ivReply);
+
+        /*// set on click listeners for action items
+        ivLike.setOnClickListener(this);
+        ivRetweet.setOnClickListener(this);
+        ivReply.setOnClickListener(this);*/
+
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -182,6 +204,35 @@ public class TimelineActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case  R.id.ivReply: {
+                // change color
+                // launchReplyActivity();
+                break;
+            }
+            case  R.id.ivRetweet: {
+                Toast.makeText(this, "retweet pressed", Toast.LENGTH_LONG).show();
+                ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                // retweet();
+                break;
+            }
+            case  R.id.ivLike: {
+                ivLike.setImageResource(R.drawable.ic_vector_heart);
+                // likeTweet();
+                break;
+            }
+        }
+    }
+
+    // method for starting intent for reply activity
+    public void launchReplyView() {
+        // first parameter is the context, second is the class of the activity to launch
+        Intent i = new Intent(this, ComposeActivity.class); //ReplyActivity.class
+        startActivityForResult(i, REQUEST_CODE); // brings up the second activity with result code
     }
 
 
