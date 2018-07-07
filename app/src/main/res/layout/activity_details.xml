@@ -91,7 +91,7 @@
         app:srcCompat="@drawable/vector_compose_dm_fab" />
 
     <ImageView
-        android:id="@+id/ivLikes"
+        android:id="@+id/ivLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/tvBody"

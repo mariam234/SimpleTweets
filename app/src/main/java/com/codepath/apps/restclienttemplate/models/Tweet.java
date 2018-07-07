@@ -17,6 +17,7 @@ public class Tweet {
     public boolean retweeted;
     public boolean liked;
 
+
     // empty constructor needed by the Parceler library
     public Tweet() {
     }

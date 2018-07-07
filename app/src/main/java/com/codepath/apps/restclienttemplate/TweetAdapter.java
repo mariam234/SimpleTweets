@@ -18,9 +18,6 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.codepath.apps.restclienttemplate.TimelineActivity.onTweetClicked;
-import static com.codepath.apps.restclienttemplate.TimelineActivity.onLikeClicked;
-import static com.codepath.apps.restclienttemplate.TimelineActivity.onRetweetClicked;
-import static com.codepath.apps.restclienttemplate.TimelineActivity.onReplyClicked;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
@@ -139,15 +136,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
             switch (view.getId()) {
                 case R.id.ivReply: {
-                    //onReplyClicked(tweet, context);
+                    //onReplyClicked();
                     break;
                 }
                 case R.id.ivRetweet: {
-                    //onRetweetClicked(tweet, context);
+                    //onRetweetClicked();
                     break;
                 }
                 case R.id.ivLike: {
-                    onLikeClicked(tweet, (ImageView) view);
+                    //onLikeClicked();
                     break;
                 }
                 default:

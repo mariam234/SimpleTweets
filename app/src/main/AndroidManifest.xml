@@ -42,9 +42,6 @@
             android:name=".ComposeActivity"
             android:label=""
             android:theme="@style/AppTheme" />
-        <activity android:name=".ReplyActivity"
-            android:label=""
-            android:theme="@style/AppTheme"/>
         <activity android:name=".DetailsActivity"
             android:label=""
             android:theme="@style/AppTheme">

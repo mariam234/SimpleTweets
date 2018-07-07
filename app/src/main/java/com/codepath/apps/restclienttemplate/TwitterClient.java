@@ -71,7 +71,17 @@ public class TwitterClient extends OAuthBaseClient {
 
 	// endpoint for liking Tweet
 	public void likeTweet(boolean already_liked, long id, AsyncHttpResponseHandler handler) {
-		String url = already_liked ? "favorites/create" : "favorites/destroy";
+		String url = already_liked ? "favorites/destroy.json" : "favorites/create.json";
+		String apiUrl = getApiUrl(url);
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(apiUrl, params, handler);
+	}
+
+	// endpoint for retweeting Tweet
+	public void retweetTweet(boolean already_retweeted, long id, AsyncHttpResponseHandler handler) {
+		String url = already_retweeted ? "statuses/retweet/" + Long.toString(id) + ".json" : "statuses/unretweet/" + Long.toString(id) + ".json";
 		String apiUrl = getApiUrl(url);
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();

@@ -41,6 +41,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
     Tweet tweet;
 
+    boolean liked;
+    boolean retweeted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         // unwrap passed in tweet
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
 
+        liked = tweet.liked;
+        retweeted = tweet.retweeted;
+
         // lookup view ids and bind to variables
         tvBody = findViewById(R.id.tvBody);
         tvUsername = findViewById(R.id.tvUsername);
@@ -127,14 +133,15 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         ivProfileImage.setVisibility(View.VISIBLE);
         tvUsername.setVisibility(View.VISIBLE);
         tvHandle.setVisibility(View.VISIBLE);
-/*
+
+        // set on click listeners for action items
         ivRetweet = findViewById(R.id.ivRetweet);
         ivLike = findViewById(R.id.ivLike);
         ivReply = findViewById(R.id.ivReply);
 
         ivRetweet.setOnClickListener(this);
         ivLike.setOnClickListener(this);
-        ivReply.setOnClickListener(this);*/
+        ivReply.setOnClickListener(this);
     }
 
     @Override
@@ -144,20 +151,50 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 likeTweet();
                 break;
             }
+            case  R.id.ivRetweet: {
+                retweet();
+                break;
+            }
         }
     }
 
     void likeTweet() {
         TwitterClient client = TwitterApp.getRestClient(this);
-        client.likeTweet(tweet.liked, tweet.uid, new JsonHttpResponseHandler() {
+        client.likeTweet(liked, tweet.uid, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                if (tweet.liked) {
-                    ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart));
+                if (liked) {
+                    ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart_stroke));
+                    Toast.makeText(getBaseContext(), "Unliked", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart_stroke));
+                    ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart));
+                    Toast.makeText(getBaseContext(), "Liked!", Toast.LENGTH_SHORT).show();
                 }
+                liked = !liked;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e ("Twitter Client", errorResponse.toString());
+            }
+        });
+    }
+
+    void retweet() {
+        TwitterClient client = TwitterApp.getRestClient(this);
+        client.retweetTweet(retweeted, tweet.uid, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (retweeted) {
+                    ivRetweet.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_retweet_stroke));
+                    Toast.makeText(getBaseContext(), "Retweet removed", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    ivRetweet.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_retweet));
+                    Toast.makeText(getBaseContext(), "Retweeted!", Toast.LENGTH_SHORT).show();
+                }
+                retweeted = !retweeted;
             }
 
             @Override
