@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,12 +14,18 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements View.OnClickListener{
 
     MenuItem miActionProgressItem;
     TextView tvBody;
@@ -28,6 +35,9 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvRetweetCount;
     TextView tvLikesCount;
     ImageView ivProfileImage;
+    ImageView ivRetweet;
+    ImageView ivReply;
+    ImageView ivLike;
 
     Tweet tweet;
 
@@ -35,6 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        setTweetDetails();
     }
 
     @Override
@@ -48,7 +59,7 @@ public class DetailsActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
         showProgressBar();
-        setTweetDetails();
+
         hideProgressBar();
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
@@ -95,8 +106,8 @@ public class DetailsActivity extends AppCompatActivity {
         tvUsername.setText(tweet.user.name);
         tvHandle.setText("@" + tweet.user.screenName);
         tvTimestamp.setText(ParseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
-        // tvLikesCount.setText(tweet.likesCount);
-        // tvRetweetCount.setText(tweet.retweetCount);
+        tvLikesCount.setText(insertCommas(String.valueOf(tweet.likesCount)));
+        tvRetweetCount.setText(insertCommas(String.valueOf(tweet.retweetCount)));
 
         // rounded corners transformation
         RoundedCornersTransformation transformation = new RoundedCornersTransformation(
@@ -116,5 +127,54 @@ public class DetailsActivity extends AppCompatActivity {
         ivProfileImage.setVisibility(View.VISIBLE);
         tvUsername.setVisibility(View.VISIBLE);
         tvHandle.setVisibility(View.VISIBLE);
+/*
+        ivRetweet = findViewById(R.id.ivRetweet);
+        ivLike = findViewById(R.id.ivLike);
+        ivReply = findViewById(R.id.ivReply);
+
+        ivRetweet.setOnClickListener(this);
+        ivLike.setOnClickListener(this);
+        ivReply.setOnClickListener(this);*/
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case  R.id.ivLike: {
+                likeTweet();
+                break;
+            }
+        }
+    }
+
+    void likeTweet() {
+        TwitterClient client = TwitterApp.getRestClient(this);
+        client.likeTweet(tweet.liked, tweet.uid, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (tweet.liked) {
+                    ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart));
+                }
+                else {
+                    ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart_stroke));
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e ("Twitter Client", errorResponse.toString());
+            }
+        });
+    }
+
+    // methods for formatting likes/retweet numbers
+    private static String insertCommas(BigDecimal number) {
+        // for your case use this pattern -> #,##0.00
+        DecimalFormat df = new DecimalFormat("#,##0");
+        return df.format(number);
+    }
+
+    private static String insertCommas(String number) {
+        return insertCommas(new BigDecimal(number));
     }
 }

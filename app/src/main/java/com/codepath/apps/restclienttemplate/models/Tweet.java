@@ -15,7 +15,7 @@ public class Tweet {
     public int retweetCount;
     public int likesCount;
     public boolean retweeted;
-    public boolean favorited;
+    public boolean liked;
 
     // empty constructor needed by the Parceler library
     public Tweet() {
@@ -35,8 +35,9 @@ public class Tweet {
         tweet.retweetCount = jsonObject.getInt("retweet_count");
         tweet.likesCount = jsonObject.getInt("favorite_count");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
-        tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.liked = jsonObject.getBoolean("favorited");
 
         return tweet;
     }
 }
+

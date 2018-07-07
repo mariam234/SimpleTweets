@@ -65,6 +65,7 @@
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/ivProfileImageCompose"
         android:text="Username"
+        android:textStyle="bold"
         android:visibility="invisible" />
 
     <TextView

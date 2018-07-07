@@ -212,4 +212,31 @@ public class TimelineActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    static void onLikeClicked (Tweet tweet, ImageView view) {
+/*        if (tweet.liked) {
+            // view.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart_stroke));
+        }
+        else {
+            // view.setImageDrawable(getResources().getDrawable(R.drawable.ic_vector_heart));
+        }
+        client.likeTweet(tweet.liked, tweet.uid, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });*/
+    }
+
+    static void onRetweetClicked (Tweet tweet, ImageView view) {
+    }
+
+    static void onReplyClicked (Tweet tweet, ImageView view) {
+    }
+
+
 }

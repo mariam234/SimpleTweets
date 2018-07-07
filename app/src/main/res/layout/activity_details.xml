@@ -20,10 +20,13 @@
         android:ems="10"
         android:inputType="textMultiLine"
         android:scrollbars="vertical"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         android:theme="@style/TimelineText"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        android:autoLink="all"
+        android:linksClickable="true"/>
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -44,6 +47,7 @@
         android:layout_alignTop="@+id/ivProfileImage"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="Username"
+        android:textColor="@android:color/black"
         android:textStyle="bold"
         android:visibility="invisible" />
 
