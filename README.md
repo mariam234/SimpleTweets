@@ -58,7 +58,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Creating onClick methods and linking them to the correct item was very difficult. Also creating some layouts were difficult because they may have been overconstrained. 
 
 ## Open-source libraries used
 
